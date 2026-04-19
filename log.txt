@@ -1,0 +1,17 @@
+/bin/sh: /usr/bin/npx: No such file or directory
+/bin/sh: /usr/bin/npx: No such file or directory
+/bin/sh: /usr/bin/npx: No such file or directory
+/bin/sh: /usr/bin/npx: No such file or directory
+/bin/sh: /usr/bin/npx: No such file or directory
+/bin/sh: /usr/bin/npx: No such file or directory
+/bin/sh: /usr/bin/npx: No such file or directory
+/bin/sh: /usr/bin/npx: No such file or directory
+/bin/sh: /usr/bin/npx: No such file or directory
+/bin/sh: /usr/bin/npx: No such file or directory
+/bin/sh: /usr/bin/npx: No such file or directory
+/bin/sh: /usr/bin/npx: No such file or directory
+/bin/sh: /usr/bin/npx: No such file or directory
+/bin/sh: /usr/bin/npx: No such file or directory
+/bin/sh: /usr/bin/npx: No such file or directory
+/bin/sh: /usr/bin/npx: No such file or directory
+/bin/sh: /usr/bin/npx: No such file or directory
