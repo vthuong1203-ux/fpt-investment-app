@@ -1,10 +1,5 @@
 import type { Metadata } from 'next'
-import dynamic from 'next/dynamic'
-
-const ChatbotSection = dynamic(
-  () => import('@/components/chatbot-section'),
-  { ssr: false }
-)
+import ChatbotSection from '@/components/chatbot-section'
 
 export const metadata: Metadata = {
   title: 'Chatbot AI - Hỏi đáp về cổ phiếu FPT',
