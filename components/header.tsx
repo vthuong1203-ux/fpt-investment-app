@@ -36,7 +36,8 @@ export default function Header() {
               <Link
                 key={item.label}
                 href={item.href}
-                className="text-sm font-medium text-foreground/70 hover:text-primary transition-colors"
+                prefetch
+                className="text-sm font-medium text-foreground/70 transition-colors duration-200 ease-out hover:text-primary"
               >
                 {item.label}
               </Link>
@@ -73,8 +74,9 @@ export default function Header() {
               <Link
                 key={item.label}
                 href={item.href}
+                prefetch
                 onClick={() => setIsOpen(false)}
-                className="block text-sm font-medium text-foreground/70 hover:text-primary transition-colors py-2"
+                className="block py-2 text-sm font-medium text-foreground/70 transition-colors duration-200 ease-out hover:text-primary"
               >
                 {item.label}
               </Link>

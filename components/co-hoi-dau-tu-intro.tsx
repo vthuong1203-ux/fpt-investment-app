@@ -4,7 +4,7 @@ export default function CoHoiDauTuIntro() {
   return (
     <header className="border-b border-border bg-background text-left">
       <div className="px-4 py-10 sm:px-6 lg:px-8">
-        <div className="max-w-6xl">
+        <div className="mx-auto max-w-6xl">
           <nav aria-label="Breadcrumb" className="mb-4 text-sm text-muted-foreground">
             <Link href="/" className="hover:text-foreground hover:underline">
               Trang chủ

@@ -123,3 +123,25 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Route enter: nhanh, nhẹ; tôn trọng reduced motion */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @keyframes route-enter {
+    from {
+      opacity: 0.88;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .route-content {
+    animation: route-enter 0.18s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+}

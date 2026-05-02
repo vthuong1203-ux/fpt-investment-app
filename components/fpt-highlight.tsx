@@ -79,7 +79,7 @@ export default function FptHighlight() {
 
   return (
     <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-background via-background to-secondary/5">
-      <div className="max-w-6xl text-left">
+      <div className="mx-auto max-w-6xl text-left">
         <div className="mb-10">
           <h2 className="text-2xl font-bold leading-tight text-foreground sm:text-3xl mb-4">
             {insight.sentiment === 'Bullish'

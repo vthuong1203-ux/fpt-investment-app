@@ -3,6 +3,7 @@ import { Be_Vietnam_Pro } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import Header from '@/components/header'
 import Footer from '@/components/footer'
+import PageTransition from '@/components/page-transition'
 import './globals.css'
 
 const beVietnamPro = Be_Vietnam_Pro({ 
@@ -46,7 +47,7 @@ export default function RootLayout({
       <body className={`${beVietnamPro.variable} font-sans antialiased`}>
         <Header />
         <main className="min-h-screen bg-background text-foreground">
-          {children}
+          <PageTransition>{children}</PageTransition>
         </main>
         <Footer />
         {process.env.NODE_ENV === 'production' && <Analytics />}
