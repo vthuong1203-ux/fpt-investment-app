@@ -39,7 +39,7 @@ export default function HeroSection() {
 
         {/* Description */}
         <p className="text-lg sm:text-xl text-foreground/60 mb-10 leading-relaxed max-w-2xl mx-auto">
-          Phân tích cổ phiếu FPT bằng trí tuệ nhân tạo. Khám phá các cơ hội đầu tư dài hạn từ digital transformation, software export, và fintech innovation.
+          Nền tảng thông tin và công cụ phân tích. Tín hiệu chiến lược, đánh giá cơ hội đầu tư và bảng cập nhật giá được đặt ở mục Cơ hội đầu tư.
         </p>
 
         {/* CTA Buttons */}

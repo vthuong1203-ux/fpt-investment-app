@@ -112,41 +112,34 @@ export default function FptHighlight() {
             Giá và nhận định realtime — FPT
           </h2>
           <p className="text-lg text-foreground/60 max-w-2xl">
-            {dataEmpty
-              ? <>Khu vực này dùng bảng <strong className="font-semibold text-foreground/80">stock_prices</strong> và{' '}
-                <strong className="font-semibold text-foreground/80">fpt_insights</strong>. Khi dữ liệu đã đồng bộ, biểu đồ và tóm tắt AI hiển thị tự động.</>
-              : <>Diễn biến giá và tóm tắt nhận định gần nhất (đồng bộ mỗi mười giây).</>}
+            {dataEmpty ? (
+              <>Khi dữ liệu giá và nhận định được cập nhật, biểu đồ và phần tóm tắt sẽ hiển thị tại đây.</>
+            ) : (
+              <>Diễn biến giá và tóm tắt nhận định gần nhất; trang tự làm mới định kỳ.</>
+            )}
           </p>
         </div>
 
         {dataEmpty ? (
-          <div className="mb-10 rounded-2xl border border-dashed border-border bg-card/80 p-8">
-            <h3 className="text-xl font-semibold text-foreground mb-3">Chưa có dữ liệu realtime?</h3>
-            <ul className="space-y-2 text-sm leading-relaxed text-foreground/70 max-w-prose mb-8">
-              <li>• Xem khối <strong className="text-foreground/85">Đánh giá cơ hội đầu tư</strong> phía trên nếu bảng <code className="text-xs">insights</code> đã có bản ghi.</li>
-              <li>
-                • Đọc{' '}
-                <Link href="/tin-tuc" className="text-primary underline-offset-4 hover:underline">
-                  tin tức
-                </Link>{' '}
-                cho ngữ cảnh doanh nghiệp và thị trường.
-              </li>
-              <li>
-                • Dùng{' '}
-                <Link href="/chatbot" className="text-primary underline-offset-4 hover:underline">
-                  Chatbot AI
-                </Link>{' '}hoặc{' '}
-                <Link href="/khoa-hoc" className="text-primary underline-offset-4 hover:underline">
-                  khoá học
-                </Link>.
-              </li>
-            </ul>
+          <div className="mb-10 rounded-xl border border-dashed border-border bg-muted/20 p-6 sm:p-8">
+            <p className="text-sm leading-relaxed text-muted-foreground max-w-prose mb-6">
+              Chưa có dữ liệu hiển thị trong khoảng này. Bạn có thể xem mục <strong className="text-foreground font-medium">Tín hiệu chiến lược</strong> và{' '}
+              <strong className="text-foreground font-medium">Đánh giá cơ hội đầu tư</strong> phía trên (nếu đã có dữ liệu insight); hoặc mở{' '}
+              <Link href="/tin-tuc" className="text-primary underline-offset-4 hover:underline">
+                Tin tức
+              </Link>
+              ,{' '}
+              <Link href="/khoa-hoc" className="text-primary underline-offset-4 hover:underline">
+                Khoá học
+              </Link>
+              .
+            </p>
             <div className="flex flex-wrap gap-3">
-              <Button asChild className="rounded-xl">
-                <Link href="/">Trang chủ — tín hiệu tổng quan</Link>
+              <Button asChild className="rounded-xl" size="sm">
+                <Link href="/">Về trang chủ</Link>
               </Button>
-              <Button asChild variant="outline" className="rounded-xl">
-                <Link href="/tin-tuc">Đi đến tin tức</Link>
+              <Button asChild variant="outline" size="sm" className="rounded-xl">
+                <Link href="/tin-tuc">Tin tức</Link>
               </Button>
             </div>
           </div>
@@ -170,8 +163,8 @@ export default function FptHighlight() {
           </div>
         ) : (
           !dataEmpty ? (
-            <div className="mb-10 rounded-2xl border border-border bg-muted/20 px-6 py-5 text-sm text-foreground/70">
-              Chưa có bản nhận định mới trong <code className="text-xs">fpt_insights</code>. Theo dõi khối cơ hội phía trên hoặc mục tin tức.
+            <div className="mb-10 rounded-xl border border-border bg-muted/20 px-5 py-4 text-sm text-muted-foreground">
+              Chưa có nhận định cập nhật trong phần này. Xem các khối phân tích phía trên hoặc mục tin tức.
             </div>
           ) : null
         )}
@@ -192,16 +185,14 @@ export default function FptHighlight() {
               </span>
             </div>
           ) : (
-            <p className="text-sm text-foreground/60 mb-6">
-              Chưa có bản ghi giá mới trong <code className="text-xs">stock_prices</code> cho mã FPT.
-            </p>
+            <p className="text-sm text-muted-foreground mb-6">Chưa có dữ liệu giá hiển thị cho mã FPT.</p>
           )}
 
           {chartData.length > 1 ? (
             <StockChart data={chartData} />
           ) : (
-            <div className="rounded-xl bg-muted/30 py-14 text-center text-sm text-foreground/50">
-              Biểu đồ cần ít nhất hai điểm giá đã lưu; có thể bật cron đồng bộ để có chuỗi thời gian đầy đủ.
+            <div className="rounded-xl bg-muted/30 py-12 text-center text-sm text-muted-foreground">
+              Biểu đồ cần ít nhất hai mốc giá theo thời gian.
             </div>
           )}
 
