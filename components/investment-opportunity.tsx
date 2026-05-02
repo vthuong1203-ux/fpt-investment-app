@@ -3,14 +3,54 @@ import { supabaseAdmin } from '@/lib/supabase'
 
 export const dynamic = 'force-dynamic';
 
-export default async function InvestmentOpportunity() {
+function InvestmentOpportunityPlaceholder() {
+  return (
+    <section id="opportunities" className="border-y border-border bg-white px-4 py-16 dark:bg-background">
+      <div className="mx-auto max-w-4xl text-center">
+        <p className="mb-4 text-xs font-black uppercase tracking-[0.3em] text-primary">Market opportunity</p>
+        <h2 className="mb-4 text-4xl font-black tracking-tight">Đánh giá cơ hội đầu tư</h2>
+        <p className="mx-auto mb-10 max-w-2xl text-sm leading-relaxed text-foreground/65">
+          Hệ thống AI tính chỉ báo bullish/bearish, điểm ảnh hưởng và lý luận từ các insight gần nhất. Khi cơ sở dữ liệu insight đã đồng bộ,
+          bạn sẽ thấy chỉ số realtime tại khối bên dưới giống trên trang chủ. Trước khi có kết quả, bạn vẫn có thể bám sát chủ đề FPT qua các
+          mục tin tức và học đầu tư trên menu điều hướng.
+        </p>
+        <div className="grid gap-8 text-left md:grid-cols-2">
+          <div className="rounded-[2rem] border border-border bg-secondary/20 p-8">
+            <h3 className="mb-6 text-xs font-black uppercase tracking-widest text-foreground/40">Chỉ báo được tính khi có dữ liệu</h3>
+            <ul className="space-y-3 text-sm text-foreground/80">
+              <li>• Tâm lý thị trường (sentiment trung bình của insight).</li>
+              <li>• Độ mạnh chủ đề (impact score trung bình).</li>
+              <li>• Tổng quan bullish / bearish theo các insight nổi bật.</li>
+            </ul>
+          </div>
+          <div className="rounded-[2rem] border border-primary/15 bg-primary/5 p-8">
+            <h3 className="mb-6 text-xs font-black uppercase tracking-widest text-primary">Gợi ý chủ đề nghiên cứu</h3>
+            <ul className="space-y-3 text-sm leading-relaxed text-foreground/80">
+              <li>• Theo dõi báo cáo tài chính và dòng tin về margins dịch vụ số.</li>
+              <li>• Chính sách và chi phí đầu tư cho AI, cloud và an ninh mạng.</li>
+              <li>• Biến động FX và nhu cầu thuê ngoài phần mềm tại thị trường chủ đạo của FSOFT.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+export default async function InvestmentOpportunity({
+  showPlaceholderWhenEmpty = false,
+}: {
+  showPlaceholderWhenEmpty?: boolean;
+} = {}) {
   // 1. Fetch toàn bộ insights để tính toán
   const { data: insights, error } = await supabaseAdmin
     .from('insights')
     .select('sentiment, impact_score, summary')
-    .order('impact_score', { ascending: false });
+    .order('impact_score', { ascending: false })
 
-  if (error || !insights || insights.length === 0) return null;
+  if (error || !insights || insights.length === 0) {
+    return showPlaceholderWhenEmpty ? <InvestmentOpportunityPlaceholder /> : null
+  }
 
   // 2. Logic tính toán
   const bullishCount = insights.filter(i => i.sentiment > 0.3).length;
