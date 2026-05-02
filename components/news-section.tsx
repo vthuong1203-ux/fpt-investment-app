@@ -1,9 +1,9 @@
 import { Calendar } from 'lucide-react'
 import { supabaseAdmin } from '@/lib/supabase'
 
-export const dynamic = 'force-dynamic';
-
 export default async function NewsSection({ id }: { id?: string }) {
+  if (!supabaseAdmin) return null;
+
   const { data: articles, error } = await supabaseAdmin
     .from('articles')
     .select('*')
