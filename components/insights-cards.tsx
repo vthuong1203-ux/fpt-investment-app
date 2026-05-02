@@ -23,7 +23,7 @@ export default async function InsightsCards() {
 
   return (
     <section className="py-16 px-4 sm:px-6 lg:px-8 bg-background">
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-6xl">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10 border-b border-border pb-8">
           <div>
             <div className="flex items-center gap-2 text-primary font-bold text-sm uppercase tracking-[0.2em] mb-3">

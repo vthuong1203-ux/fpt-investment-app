@@ -38,8 +38,8 @@ export default async function InvestmentOpportunity() {
   const topReasons = insights.slice(0, 3).map(i => i.summary);
 
   return (
-    <section id="opportunities" className="py-16 px-4 bg-white dark:bg-background border-y border-border">
-      <div className="max-w-4xl mx-auto text-center">
+    <section id="opportunities" className="border-y border-border bg-white px-4 py-16 dark:bg-background sm:px-6 lg:px-8">
+      <div className="max-w-6xl text-left">
         <h2 className="text-sm font-black text-primary uppercase tracking-[0.3em] mb-4">Market Opportunity</h2>
         <h3 className="text-4xl font-black mb-10 tracking-tight">Đánh Giá Cơ Hội Đầu Tư</h3>
 

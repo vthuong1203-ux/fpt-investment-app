@@ -6,37 +6,12 @@ import { supabase } from '@/lib/supabase'
 import StockChart from '@/components/stock-chart'
 import { Button } from '@/components/ui/button'
 
-function FptHighlightSkeleton() {
-  return (
-    <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-background via-background to-secondary/5">
-      <div className="max-w-6xl mx-auto animate-pulse">
-        <div className="mb-12 h-10 w-72 rounded-xl bg-muted" />
-        <div className="mb-6 h-8 max-w-xl rounded-lg bg-muted" />
-        <div className="mb-10 space-y-3">
-          <div className="h-4 w-full max-w-2xl rounded bg-muted/80" />
-          <div className="h-4 w-full max-w-xl rounded bg-muted/80" />
-          <div className="h-4 w-full max-w-lg rounded bg-muted/60" />
-        </div>
-        <div className="rounded-2xl border bg-card p-6">
-          <div className="mb-4 flex gap-6">
-            <div className="h-10 w-40 rounded-lg bg-muted" />
-            <div className="h-10 w-24 rounded-lg bg-muted" />
-          </div>
-          <div className="h-40 w-full rounded-lg bg-muted/60" />
-        </div>
-        <p className="sr-only">Đang tải giá và nhận định FPT...</p>
-      </div>
-    </section>
-  )
-}
-
 export default function FptHighlight() {
   const [price, setPrice] = useState<any>(null)
   const [prices, setPrices] = useState<any[]>([])
   const [insight, setInsight] = useState<any>(null)
   const [loading, setLoading] = useState(true)
 
-  // 🔥 FETCH DATA
   const fetchData = async () => {
     try {
       const { data: priceData } = await supabase
@@ -75,7 +50,6 @@ export default function FptHighlight() {
     fetchData()
   }, [])
 
-  // 🔄 REFRESH (mượt, không reload page)
   useEffect(() => {
     const interval = setInterval(() => {
       fetchData()
@@ -85,160 +59,85 @@ export default function FptHighlight() {
   }, [])
 
   if (loading) {
-    return <FptHighlightSkeleton />
+    return null
   }
 
-  const chartData =
-    prices.length > 0
-      ? [...prices]
-          .reverse()
-          .map((p: { price: number; created_at: string }) => ({
-            price: p.price,
-            time: new Date(p.created_at).toLocaleTimeString(),
-          }))
-      : []
+  if (!price || !insight) {
+    return null
+  }
 
+  const chartData = [...prices]
+    .reverse()
+    .map((p: { price: number; created_at: string }) => ({
+      price: p.price,
+      time: new Date(p.created_at).toLocaleTimeString(),
+    }))
+
+  const showChart = chartData.length > 1
   const isUp =
-    price && typeof price.change_percent === 'number' ? price.change_percent > 0 : false
-
-  const dataEmpty = !price && !insight
+    typeof price.change_percent === 'number' ? price.change_percent > 0 : false
 
   return (
-    <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-background via-background to-secondary/5">
-      <div className="max-w-6xl mx-auto">
-
-        <div className="mb-12">
-          <h2 className="text-3xl font-bold mb-4 sm:text-4xl">
-            Giá và nhận định realtime — FPT
+    <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-background via-background to-secondary/5">
+      <div className="max-w-6xl text-left">
+        <div className="mb-10">
+          <h2 className="text-2xl font-bold leading-tight text-foreground sm:text-3xl mb-4">
+            {insight.sentiment === 'Bullish'
+              ? 'FPT đang trong xu hướng tăng trưởng mạnh'
+              : 'FPT cần theo dõi thêm trước khi đầu tư'}
           </h2>
-          <p className="text-lg text-foreground/60 max-w-2xl">
-            {dataEmpty ? (
-              <>Khi dữ liệu giá và nhận định được cập nhật, biểu đồ và phần tóm tắt sẽ hiển thị tại đây.</>
-            ) : (
-              <>Diễn biến giá và tóm tắt nhận định gần nhất; trang tự làm mới định kỳ.</>
-            )}
+          <p className="text-lg text-muted-foreground max-w-3xl">{insight.summary}</p>
+          <ul className="mt-4 max-w-prose space-y-2">
+            {insight.drivers?.split('\n').map((d: string, i: number) => (
+              <li key={i} className="text-sm text-muted-foreground">
+                • {d}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="rounded-2xl border bg-card p-6">
+          <h3 className="mb-4 text-base font-semibold text-foreground">Diễn biến thị trường</h3>
+
+          <div className="mb-4 flex flex-wrap items-center gap-4">
+            <span className="text-3xl font-bold tabular-nums">
+              ₫{Number(price.price).toLocaleString('vi-VN')}
+            </span>
+            <span
+              className={`font-semibold ${isUp ? 'text-green-500' : 'text-red-500'}`}
+            >
+              {isUp ? '+' : ''}
+              {Number(price.change_percent).toFixed(2)}%
+            </span>
+          </div>
+
+          {showChart ? <StockChart data={chartData} /> : null}
+
+          <p className="mt-3 text-xs text-muted-foreground">
+            Cập nhật giá: {new Date(price.created_at).toLocaleString('vi-VN')}
+          </p>
+          <p className="mt-3 text-sm text-muted-foreground">
+            Luôn đối chiếu với sàn niêm yết trước khi đặt lệnh.
           </p>
         </div>
 
-        {dataEmpty ? (
-          <div className="mb-10 rounded-xl border border-dashed border-border bg-muted/20 p-6 sm:p-8">
-            <p className="text-sm leading-relaxed text-muted-foreground max-w-prose mb-6">
-              Chưa có dữ liệu hiển thị trong khoảng này. Bạn có thể xem mục <strong className="text-foreground font-medium">Tín hiệu chiến lược</strong> và{' '}
-              <strong className="text-foreground font-medium">Đánh giá cơ hội đầu tư</strong> phía trên (nếu đã có dữ liệu insight); hoặc mở{' '}
-              <Link href="/tin-tuc" className="text-primary underline-offset-4 hover:underline">
-                Tin tức
-              </Link>
-              ,{' '}
-              <Link href="/khoa-hoc" className="text-primary underline-offset-4 hover:underline">
-                Khoá học
-              </Link>
-              .
-            </p>
-            <div className="flex flex-wrap gap-3">
-              <Button asChild className="rounded-xl" size="sm">
-                <Link href="/">Về trang chủ</Link>
-              </Button>
-              <Button asChild variant="outline" size="sm" className="rounded-xl">
-                <Link href="/tin-tuc">Tin tức</Link>
-              </Button>
-            </div>
-          </div>
-        ) : null}
-
-        {insight ? (
-          <div className="mb-10">
-            <h3 className="text-2xl sm:text-3xl font-bold leading-tight mb-4 text-foreground">
-              {insight.sentiment === 'Bullish'
-                ? 'FPT đang trong xu hướng tăng trưởng mạnh'
-                : 'FPT cần theo dõi thêm trước khi đầu tư'}
-            </h3>
-            <p className="text-lg text-foreground/70 max-w-3xl">{insight.summary}</p>
-            <ul className="mt-4 space-y-2">
-              {insight.drivers?.split('\n').map((d: string, i: number) => (
-                <li key={i} className="text-sm text-foreground/70">
-                  • {d}
-                </li>
-              ))}
-            </ul>
-          </div>
-        ) : (
-          !dataEmpty ? (
-            <div className="mb-10 rounded-xl border border-border bg-muted/20 px-5 py-4 text-sm text-muted-foreground">
-              Chưa có nhận định cập nhật trong phần này. Xem các khối phân tích phía trên hoặc mục tin tức.
-            </div>
-          ) : null
-        )}
-
-        <div className="mt-2 p-6 rounded-2xl border bg-white dark:bg-card">
-          <p className="text-sm text-foreground/60 mb-2">Diễn biến thị trường</p>
-
-          {price ? (
-            <div className="flex flex-wrap items-center gap-4 mb-4">
-              <span className="text-3xl font-bold tabular-nums">
-                ₫{Number(price.price).toLocaleString('vi-VN')}
-              </span>
-              <span
-                className={`font-semibold ${isUp ? 'text-green-500' : 'text-red-500'}`}
-              >
-                {isUp ? '+' : ''}
-                {Number(price.change_percent).toFixed(2)}%
-              </span>
-            </div>
-          ) : (
-            <p className="text-sm text-muted-foreground mb-6">Chưa có dữ liệu giá hiển thị cho mã FPT.</p>
-          )}
-
-          {chartData.length > 1 ? (
-            <StockChart data={chartData} />
-          ) : (
-            <div className="rounded-xl bg-muted/30 py-12 text-center text-sm text-muted-foreground">
-              Biểu đồ cần ít nhất hai mốc giá theo thời gian.
-            </div>
-          )}
-
-          {price ? (
-            <p className="text-xs text-foreground/40 mt-3">
-              Cập nhật giá: {new Date(price.created_at).toLocaleString('vi-VN')}
-            </p>
-          ) : null}
-
-          <p className="text-sm text-foreground/70 mt-3">
-            Giá phản ánh các giao dịch gần đây trong hệ thống — luôn đối chiếu với sàn niêm yết trước khi đặt lệnh.
+        <div className="mt-8 rounded-2xl border border-primary/20 bg-gradient-to-r from-primary/10 to-accent/10 p-6">
+          <h3 className="mb-2 text-xl font-bold">Điều hướng thêm</h3>
+          <p className="mb-4 text-sm text-muted-foreground">
+            Nội dung bổ trợ không thay thế tư vấn đầu tư cá nhân.
           </p>
-        </div>
-
-        <div className="mt-8 p-6 rounded-2xl bg-gradient-to-r from-primary/10 to-accent/10 border border-primary/20">
-
-          <h3 className="text-xl font-bold mb-2">
-            Tiếp tục khám phá nền tảng
-          </h3>
-
-          <p className="text-sm text-foreground/70 mb-4">
-            Tin tức, học và chatbot là các lớp nội dung bổ trợ phân số realtime — không thay cho tư vấn tài chính cá nhân.
-          </p>
-
           <div className="flex flex-wrap gap-3">
             <Button asChild className="rounded-xl">
-              <Link href="/chatbot">Hỏi Chatbot AI</Link>
+              <Link href="/chatbot">Chatbot AI</Link>
             </Button>
             <Button asChild variant="outline" className="rounded-xl">
-              <Link href="/tin-tuc">Đọc tin tức</Link>
+              <Link href="/tin-tuc">Tin tức</Link>
             </Button>
-            <Button
-              type="button"
-              variant="outline"
-              className="rounded-xl"
-              onClick={() => alert('Coming soon')}
-            >
+            <Button type="button" variant="outline" className="rounded-xl" onClick={() => alert('Coming soon')}>
               Mở tài khoản (sắp ra mắt)
             </Button>
           </div>
-
-          <p className="text-xs text-foreground/50 mt-4">
-            Cập nhật dữ liệu mười giây một lần khi trang được mở.
-          </p>
         </div>
-
       </div>
     </section>
   )
