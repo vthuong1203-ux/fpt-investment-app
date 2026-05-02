@@ -3,17 +3,17 @@
 import { Button } from '@/components/ui/button'
 import { Menu, X } from 'lucide-react'
 import { useState } from 'react'
-import Image from 'next/image'
+import Link from 'next/link'
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
 
   const menuItems = [
-    { label: 'Trang chủ', href: '#' },
-    { label: 'Cơ hội đầu tư', href: '#opportunities' },
-    { label: 'Tin tức', href: '#news' },
-    { label: 'Khoá học', href: '#courses' },
-    { label: 'Chatbot AI', href: '#chatbot' },
+    { label: 'Trang chủ', href: '/' },
+    { label: 'Cơ hội đầu tư', href: '/co-hoi-dau-tu' },
+    { label: 'Tin tức', href: '/tin-tuc' },
+    { label: 'Khoá học', href: '/khoa-hoc' },
+    { label: 'Chatbot AI', href: '/chatbot' },
   ]
 
   return (
@@ -33,13 +33,13 @@ export default function Header() {
           {/* Desktop Menu */}
           <nav className="hidden md:flex items-center gap-8">
             {menuItems.map((item) => (
-              <a
+              <Link
                 key={item.label}
                 href={item.href}
                 className="text-sm font-medium text-foreground/70 hover:text-primary transition-colors"
               >
                 {item.label}
-              </a>
+              </Link>
             ))}
           </nav>
 
@@ -70,13 +70,14 @@ export default function Header() {
         {isOpen && (
           <div className="md:hidden pb-4 space-y-3">
             {menuItems.map((item) => (
-              <a
+              <Link
                 key={item.label}
                 href={item.href}
+                onClick={() => setIsOpen(false)}
                 className="block text-sm font-medium text-foreground/70 hover:text-primary transition-colors py-2"
               >
                 {item.label}
-              </a>
+              </Link>
             ))}
             <Button
               size="sm"

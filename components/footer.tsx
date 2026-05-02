@@ -1,4 +1,4 @@
-'use client'
+import Link from 'next/link'
 
 export default function Footer() {
   return (
@@ -12,10 +12,10 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold text-foreground mb-4">Sản phẩm</h4>
             <ul className="space-y-2 text-sm text-foreground/60">
-              <li><a href="#" className="hover:text-primary transition-colors">Phân tích cổ phiếu</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Tin tức & Cập nhật</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Khoá học đầu tư</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Chatbot AI</a></li>
+              <li><Link href="/co-hoi-dau-tu" className="hover:text-primary transition-colors">Phân tích cổ phiếu</Link></li>
+              <li><Link href="/tin-tuc" className="hover:text-primary transition-colors">Tin tức & Cập nhật</Link></li>
+              <li><Link href="/khoa-hoc" className="hover:text-primary transition-colors">Khoá học đầu tư</Link></li>
+              <li><Link href="/chatbot" className="hover:text-primary transition-colors">Chatbot AI</Link></li>
             </ul>
           </div>
           <div>

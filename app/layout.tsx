@@ -1,9 +1,10 @@
 import type { Metadata } from 'next'
 import { Be_Vietnam_Pro } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
+import Header from '@/components/header'
+import Footer from '@/components/footer'
 import './globals.css'
 
-// Sử dụng Be Vietnam Pro - Phông chữ tiêu chuẩn cao cấp cho tiếng Việt
 const beVietnamPro = Be_Vietnam_Pro({ 
   subsets: ["vietnamese"],
   weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
@@ -11,9 +12,11 @@ const beVietnamPro = Be_Vietnam_Pro({
 });
 
 export const metadata: Metadata = {
-  title: 'FPT Investment Insights - AI-Driven Stock Analysis',
-  description: 'Explore investment opportunities in FPT stock with AI-driven analysis, risk assessment, and performance projections.',
-  generator: 'v0.app',
+  title: {
+    default: 'FPT Investment Insights - Phân tích cổ phiếu FPT bằng AI',
+    template: '%s | FPT Investment Insights',
+  },
+  description: 'Nền tảng phân tích cổ phiếu FPT bằng trí tuệ nhân tạo. Khám phá cơ hội đầu tư, tin tức thị trường và nhận định chuyên sâu.',
   icons: {
     icon: [
       {
@@ -41,7 +44,11 @@ export default function RootLayout({
   return (
     <html lang="vi">
       <body className={`${beVietnamPro.variable} font-sans antialiased`}>
-        {children}
+        <Header />
+        <main className="min-h-screen bg-background text-foreground">
+          {children}
+        </main>
+        <Footer />
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>

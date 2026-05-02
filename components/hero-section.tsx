@@ -2,6 +2,7 @@
 
 import { Button } from '@/components/ui/button'
 import { ArrowRight, TrendingUp } from 'lucide-react'
+import Link from 'next/link'
 
 export default function HeroSection() {
   return (
@@ -44,11 +45,14 @@ export default function HeroSection() {
         {/* CTA Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">  
           <Button
+            asChild
             size="lg"
             className="bg-primary hover:bg-primary/90 text-white font-semibold px-6 py-3 rounded-xl"
           >
-            Xem cơ hội đầu tư
-            <ArrowRight className="ml-2 w-5 h-5" />
+            <Link href="/co-hoi-dau-tu">
+              Xem cơ hội đầu tư
+              <ArrowRight className="ml-2 w-5 h-5" />
+            </Link>
           </Button>
 
           <Button
